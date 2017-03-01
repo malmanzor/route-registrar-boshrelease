@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+# Setup env vars and folders for the webapp_ctl script
+source /var/vcap/jobs/route-registrar/helpers/ctl_setup.sh 'route-registrar'
+
+<% if_p('route_registrar.stop_on_drain') do |should_stop| %>
+    <% if 'true' == should_stop then %>
+kill_and_wait $PIDFILE
+    <% end %>
+<% end %>
+
+echo 0
+exit 0

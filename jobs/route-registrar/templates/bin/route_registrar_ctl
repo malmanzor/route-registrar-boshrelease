@@ -22,7 +22,12 @@ case $1 in
     ;;
 
   stop)
-    kill_and_wait $PIDFILE
+    if [[ -f ${pidfile} ]]
+    then
+      kill_and_wait $PIDFILE
+    else
+      echo "Could not find $PIDFILE assuming route-registrar has already been stopped"
+    fi
 
     ;;
   *)
